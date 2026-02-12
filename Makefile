@@ -1,17 +1,18 @@
 NAME = fractol
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror 
+CFLAGS = -Wall -Wextra -Werror -Iinclude
+INCLUDES = -Iinclude
 
-SRCS = test.c \
-	close_window.c \
-	free_all.c \
-	key_hook_function.c \
-	mouse_hook_function.c \
-	my_mlx_pixel_put.c \
-	mandelbrot.c \
-	shapes.c \
-	switch_color.c
+SRCS = src/main.c \
+	src/close_window.c \
+	src/free_all.c \
+	src/key_hook_function.c \
+	src/mouse_hook_function.c \
+	src/my_mlx_pixel_put.c \
+	src/mandelbrot.c \
+	src/shapes.c \
+	src/switch_color.c
 
 OBJS = $(SRCS:.c=.o)
 
@@ -22,8 +23,8 @@ all: $(NAME)
 $(NAME): $(OBJS)
 	$(CC) $(CFLAGS) $(OBJS) $(MLX) -o $(NAME)
 
-%.o: %.c header.h
-	$(CC) $(CFLAGS) -c $< -o $@
+%.o: %.c include/fractol.h
+	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
 clean:
 	rm -f $(OBJS)
