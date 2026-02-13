@@ -25,11 +25,16 @@ typedef struct s_mlx_data
     int     line_len;
 
     int     endian;
-    int color;
+    int     color;
+
+    // disco animation state
+    int     shift;
+    int     disco_on;
 }               t_mlx_data;
 
 # define WIDTH 1000
 # define HEIGHT 1000
+# define MAX_ITER 100
 
 int key_hook_function(int keysym,void *param);
 void free_all(t_mlx_data *data);
@@ -42,5 +47,7 @@ void draw_circle(t_mlx_data *data, int cx, int cy, int raduis);
 void draw_mandelbrot(t_mlx_data *data);
 int	color(t_mlx_data *data, int iter);
 
-#endif
+// new loop hook
+int disco_loop(void *param);
 
+#endif

@@ -9,9 +9,8 @@ int	mandelbrot(double cx, double cy)
     double zy = 0.0;
     double tmp;
     int iteration = 0;
-    int max_iter = 100;
 
-    while (zx * zx + zy * zy <= 4.0 && iteration < max_iter)
+    while (zx * zx + zy * zy <= 4.0 && iteration < MAX_ITER)
     {
         tmp = zx * zx - zy * zy + cx;
         zy = 2.0 * zx * zy + cy;
@@ -32,7 +31,7 @@ void draw_mandelbrot(t_mlx_data *data)
         for (x = 0; x < WIDTH; x++)
         {
             double cx = (x - WIDTH / 2.0) * 4.0 / WIDTH;
-            double cy = (y - HEIGHT / 2.0) * 4.0 / WIDTH;
+            double cy = (y - HEIGHT / 2.0) * 4.0 / HEIGHT;
 
             iter = mandelbrot(cx, cy);
 

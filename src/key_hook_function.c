@@ -1,12 +1,17 @@
 #include "header.h"
 
-int key_hook_function(int keysym,void *param)
+int key_hook_function(int keysym, void *param)
 {
-    printf("%d\n", keysym);
+    t_mlx_data *data;
+
+    data = (t_mlx_data *)param;
     if (keysym == XK_Escape)
     {
         free_all(param);
     }
-    return(0);
-
+    if (keysym == XK_d)
+    {
+        data->disco_on = !data->disco_on;
+    }
+    return (0);
 }

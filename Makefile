@@ -12,7 +12,8 @@ SRCS = src/main.c \
 	src/my_mlx_pixel_put.c \
 	src/mandelbrot.c \
 	src/shapes.c \
-	src/switch_color.c
+	src/switch_color.c \
+	src/disco_loop.c
 
 OBJS = $(SRCS:.c=.o)
 
