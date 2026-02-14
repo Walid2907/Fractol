@@ -46,7 +46,6 @@ int	mandelbrot(double cx, double cy);
 void draw_circle(t_mlx_data *data, int cx, int cy, int raduis);
 void draw_mandelbrot(t_mlx_data *data);
 int	color(t_mlx_data *data, int iter);
-
 // new loop hook
 int disco_loop(void *param);
 
