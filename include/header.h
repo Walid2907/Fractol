@@ -30,6 +30,11 @@ typedef struct s_mlx_data
     // disco animation state
     int     shift;
     int     disco_on;
+
+    //zoom state
+    double zoom;
+    double offset_x;
+    double offset_y;
 }               t_mlx_data;
 
 # define WIDTH 1000
@@ -39,10 +44,10 @@ typedef struct s_mlx_data
 int key_hook_function(int keysym,void *param);
 void free_all(t_mlx_data *data);
 int close_window(void *param);
-int mouse_hook_function(int button, int x, int y);
+int mouse_hook(int button, int x, int y, t_mlx_data *data);
 void my_mlx_pixel_put(t_mlx_data *data, int x, int y);
 // void draw(t_mlx_data *data);
-int	mandelbrot(double cx, double cy);
+int	mandelbrot(double cx, double cy, t_mlx_data *data);
 void draw_circle(t_mlx_data *data, int cx, int cy, int raduis);
 void draw_mandelbrot(t_mlx_data *data);
 int	color(t_mlx_data *data, int iter);
