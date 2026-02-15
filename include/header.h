@@ -47,7 +47,7 @@ int close_window(void *param);
 int mouse_hook(int button, int x, int y, t_mlx_data *data);
 void my_mlx_pixel_put(t_mlx_data *data, int x, int y);
 // void draw(t_mlx_data *data);
-int	mandelbrot(double cx, double cy, t_mlx_data *data);
+int	mandelbrot(double cx, double cy);
 void draw_circle(t_mlx_data *data, int cx, int cy, int raduis);
 void draw_mandelbrot(t_mlx_data *data);
 int	color(t_mlx_data *data, int iter);
