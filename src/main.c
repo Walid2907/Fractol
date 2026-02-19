@@ -1,55 +1,84 @@
-#include "header.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: wkerdad <wkerdad@student.1337.ma>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/02/19 00:55:22 by wkerdad           #+#    #+#             */
+/*   Updated: 2026/02/19 13:49:43 by wkerdad          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
+#include <fractol.h>
 
-int mlx_start(t_mlx_data *data)
+static int	close_window(t_mlx	*data)
 {
-    data->mlx_ptr = mlx_init();
+	free_all(data);
+	return (0);
+}
+
+static void data_init(t_mlx *data)
+{
+    data->shift = 0;
+    data->disco_on = 0;
     data->zoom = 1.0;
     data->offset_x = 0.0;
     data->offset_y = 0.0;
+    data->max_iter = MAX_ITER;
+}
 
-    if (data->mlx_ptr == NULL)
-        return 0;
-
-    data->mlx_window = mlx_new_window(data->mlx_ptr, WIDTH, HEIGHT, "test window");
-    if (data->mlx_window == NULL)
-    {
-        mlx_destroy_display(data->mlx_ptr);
-        free(data->mlx_ptr);
-        return (0);
-    }
-
-    data->mlx_img = mlx_new_image(data->mlx_ptr, WIDTH, HEIGHT);
-    if (data->mlx_img == NULL)
-    {
-        free_all(data);
-        return (0);
-    }
-    data->addr = mlx_get_data_addr(data->mlx_img, &data->bpp, &data->line_len, &data->endian);
-    return (1);
+static int	mlx_initializer(t_mlx *data)
+{
+	data->mlx_ptr = mlx_init();
+	if (data->mlx_ptr == NULL)
+		return (0);
+	data->mlx_win = mlx_new_window(data->mlx_ptr, WIDTH, HEIGHT, "Fractol");
+	if (data->mlx_win == NULL)
+	{
+		mlx_destroy_display(data->mlx_ptr);
+		return (0);
+	}
+	data->img_str.mlx_img = mlx_new_image(data->mlx_ptr, WIDTH, HEIGHT);
+	if (data->img_str.mlx_img == NULL)
+	{
+		mlx_destroy_display(data->mlx_ptr);
+		mlx_destroy_window(data->mlx_ptr, data->mlx_win);
+		return (0);
+	}
+	data->img_str.addr = mlx_get_data_addr(data->img_str.mlx_img,
+			&data->img_str.bpp, &data->img_str.line_length,
+			&data->img_str.endian);
+	if (data->img_str.addr == NULL)
+	{
+		free_all(data);
+		return (0);
+	}
+	return (1);
 }
 
 
-
-int main()
+int	main(int argc, char **argv)
 {
-    t_mlx_data mlx_data;
-
-    if (mlx_start(&mlx_data) == 0)
+	t_mlx	data;
+    
+    parse_input(argc, argv, &data);
+	if (mlx_initializer(&data) == 0)
         return (0);
-    mlx_data.shift = 0;
-    mlx_data.disco_on = 0;
-    // draw pixels into image
-    draw_mandelbrot(&mlx_data);
-    // put image
-    mlx_put_image_to_window(mlx_data.mlx_ptr, mlx_data.mlx_window, mlx_data.mlx_img, 0, 0);
-    mlx_key_hook(mlx_data.mlx_window, key_hook_function, &mlx_data);
-   
-    mlx_hook(mlx_data.mlx_window, 17, 0, close_window, &mlx_data);
-
-    // NEW: loop hook to animate
-    mlx_loop_hook(mlx_data.mlx_ptr, disco_loop, &mlx_data);
-    mlx_mouse_hook(mlx_data.mlx_window, mouse_hook, &mlx_data);
-    mlx_loop(mlx_data.mlx_ptr);
-    free_all(&mlx_data);
+    data_init(&data);
+	if (data.fractal_type == MANDELBROT)
+        mandelbort(&data);
+    else if (data.fractal_type == JULIA)
+        julia(&data);
+    else if (data.fractal_type == TRICORN)
+    {
+        tricorn(&data);
+    }
+	mlx_key_hook(data.mlx_win, key_hook_function, &data);
+	mlx_mouse_hook(data.mlx_win, mouse_hook, &data);
+	mlx_loop_hook(data.mlx_ptr, disco_loop, &data);
+	mlx_put_image_to_window(data.mlx_ptr, data.mlx_win, data.img_str.mlx_img, 0,
+		0);
+	mlx_hook(data.mlx_win, 17, 0, close_window, &data);
+	mlx_loop(data.mlx_ptr);
 }

@@ -5,15 +5,15 @@ CFLAGS = -Wall -Wextra -Werror -Iinclude
 INCLUDES = -Iinclude
 
 SRCS = src/main.c \
-	src/close_window.c \
-	src/free_all.c \
-	src/key_hook_function.c \
-	src/mouse_hook_function.c \
-	src/my_mlx_pixel_put.c \
-	src/mandelbrot.c \
-	src/shapes.c \
-	src/switch_color.c \
-	src/disco_loop.c
+       src/put_pixel.c \
+	   src/free_all.c \
+	   src/mandelbort.c \
+	   src/key_hook.c \
+	   src/disco_loop.c \
+	   src/mouse_hook.c \
+	   src/parsing.c \
+	   src/julia.c \
+	   src/tricorn.c 
 
 OBJS = $(SRCS:.c=.o)
 
