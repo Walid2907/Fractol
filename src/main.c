@@ -6,26 +6,27 @@
 /*   By: wkerdad <wkerdad@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/19 00:55:22 by wkerdad           #+#    #+#             */
-/*   Updated: 2026/02/19 13:49:43 by wkerdad          ###   ########.fr       */
+/*   Updated: 2026/02/19 17:21:29 by wkerdad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <fractol.h>
 
-static int	close_window(t_mlx	*data)
+static int	close_window(t_mlx *data)
 {
 	free_all(data);
 	return (0);
 }
 
-static void data_init(t_mlx *data)
+void	data_init(t_mlx *data)
 {
-    data->shift = 0;
-    data->disco_on = 0;
-    data->zoom = 1.0;
-    data->offset_x = 0.0;
-    data->offset_y = 0.0;
-    data->max_iter = MAX_ITER;
+	data->shift = 0;
+	data->disco_on = 0;
+	data->zoom = 1.0;
+	data->offset_x = 0.0;
+	data->offset_y = 0.0;
+	data->max_iter = MAX_ITER;
+	data->angle = 0.0;
 }
 
 static int	mlx_initializer(t_mlx *data)
@@ -57,23 +58,22 @@ static int	mlx_initializer(t_mlx *data)
 	return (1);
 }
 
-
 int	main(int argc, char **argv)
 {
 	t_mlx	data;
-    
-    parse_input(argc, argv, &data);
+
+	parse_input(argc, argv, &data);
 	if (mlx_initializer(&data) == 0)
-        return (0);
-    data_init(&data);
+		return (0);
+	data_init(&data);
 	if (data.fractal_type == MANDELBROT)
-        mandelbort(&data);
-    else if (data.fractal_type == JULIA)
-        julia(&data);
-    else if (data.fractal_type == TRICORN)
-    {
-        tricorn(&data);
-    }
+		mandelbort(&data);
+	else if (data.fractal_type == JULIA)
+		julia(&data);
+	else if (data.fractal_type == TRICORN)
+	{
+		tricorn(&data);
+	}
 	mlx_key_hook(data.mlx_win, key_hook_function, &data);
 	mlx_mouse_hook(data.mlx_win, mouse_hook, &data);
 	mlx_loop_hook(data.mlx_ptr, disco_loop, &data);

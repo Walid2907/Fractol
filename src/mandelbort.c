@@ -6,7 +6,7 @@
 /*   By: wkerdad <wkerdad@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/19 00:54:47 by wkerdad           #+#    #+#             */
-/*   Updated: 2026/02/19 01:25:14 by wkerdad          ###   ########.fr       */
+/*   Updated: 2026/02/19 17:54:59 by wkerdad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,12 +59,22 @@ static int	mandelbort_form(t_mlx *data, double x, double y)
 //            x_Real = -2.0 + (x * 3.0 / WIDTH) / data->zoom + data->offset_x;
 //            y_Imaginary = 1.5 - (y * 3.0 / HEIGHT) / data->zoom
 //	+ data->offset_y;
+
+void	helper_rotate(double *x_real, double *y_imag, t_mlx *data)
+{
+	double	tmp;
+
+	tmp = *x_real;
+	*x_real = tmp * cos(data->angle) - *y_imag * sin(data->angle);
+	*y_imag = tmp * sin(data->angle) + *y_imag * cos(data->angle);
+}
+
 void	mandelbort(t_mlx *data)
 {
 	int		x;
 	int		y;
 	double	x_real;
-	double	y_imaginary;
+	double	y_imag;
 	int		iter;
 
 	y = 0;
@@ -74,9 +84,9 @@ void	mandelbort(t_mlx *data)
 		while (x < WIDTH)
 		{
 			x_real = -2.0 + (x * 3.0 / WIDTH) / data->zoom + data->offset_x;
-			y_imaginary = 1.5 - (y * 3.0 / HEIGHT) / data->zoom
-				+ data->offset_y;
-			iter = mandelbort_form(data, x_real, y_imaginary);
+			y_imag = 1.5 - (y * 3.0 / HEIGHT) / data->zoom + data->offset_y;
+			helper_rotate(&x_real, &y_imag, data);
+			iter = mandelbort_form(data, x_real, y_imag);
 			data->color = color(data, iter);
 			put_pixel(data, x, y, data->color);
 			x++;

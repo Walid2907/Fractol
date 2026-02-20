@@ -21,13 +21,13 @@ int	disco_loop(void *param)
 		return (0);
 	data->shift = (data->shift + 1) % 360;
 	if (data->fractal_type == MANDELBROT)
-        mandelbort(data);
-    else if (data->fractal_type == JULIA)
-        julia(data);
-    else if (data->fractal_type == TRICORN)
-    {
-        tricorn(data);
-    }
+		mandelbort(data);
+	else if (data->fractal_type == JULIA)
+		julia(data);
+	else if (data->fractal_type == TRICORN)
+	{
+		tricorn(data);
+	}
 	mlx_put_image_to_window(data->mlx_ptr, data->mlx_win, data->img_str.mlx_img,
 		0, 0);
 	return (0);

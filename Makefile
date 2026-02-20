@@ -13,7 +13,8 @@ SRCS = src/main.c \
 	   src/mouse_hook.c \
 	   src/parsing.c \
 	   src/julia.c \
-	   src/tricorn.c 
+	   src/tricorn.c \
+	   src/ft_atof.c
 
 OBJS = $(SRCS:.c=.o)
 

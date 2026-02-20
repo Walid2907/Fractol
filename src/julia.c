@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   julia.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: wkerdad <wkerdad@student.1337.ma>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/02/19 16:17:18 by wkerdad           #+#    #+#             */
+/*   Updated: 2026/02/19 17:58:48 by wkerdad          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <fractol.h>
 
 static int	color(t_mlx *data, int iter)
@@ -10,56 +22,50 @@ static int	color(t_mlx *data, int iter)
 	return ((gray << 16) | (gray << 8) | gray);
 }
 
-
-static int julia_form(t_mlx *data, double x, double y)
+static int	julia_form(t_mlx *data, double x, double y)
 {
-    double new_x;
-    double new_y;
-    double temp;
-    int iteration;
+	double	new_x;
+	double	new_y;
+	double	temp;
+	int		iteration;
 
-    new_x = x;
-    new_y = y;
-    iteration = 0;
-
-    while (iteration < data->max_iter)
-    {
-        if (new_x * new_x + new_y * new_y > 4.0)
-            break;
-        temp = new_x * new_x - new_y * new_y
-            + data->julia_el.julia_x;
-        new_y = 2.0 * new_x * new_y
-            + data->julia_el.julia_y;
-        new_x = temp;
-
-        iteration++;
-    }
-    return (iteration);
+	new_x = x;
+	new_y = y;
+	iteration = 0;
+	while (iteration < data->max_iter)
+	{
+		if (new_x * new_x + new_y * new_y > 4.0)
+			break ;
+		temp = new_x * new_x - new_y * new_y + data->julia_el.julia_x;
+		new_y = 2.0 * new_x * new_y + data->julia_el.julia_y;
+		new_x = temp;
+		iteration++;
+	}
+	return (iteration);
 }
 
-void julia(t_mlx *data)
+void	julia(t_mlx *data)
 {
-    int x;
-    int y;
-    double x_real;
-    double y_imaginary;
-    int iter;
+	int		x;
+	int		y;
+	double	x_real;
+	double	y_imaginary;
+	int		iter;
 
-    y = 0;
-    while (y < HEIGHT)
-    {
-        x = 0;
-        while (x < WIDTH)
-        {
-            x_real = -2.0 + (x * 4.0 / WIDTH) / data->zoom
-                + data->offset_x;
-            y_imaginary = 2.0 - (y * 4.0 / HEIGHT) / data->zoom
-                + data->offset_y;
-            iter = julia_form(data, x_real, y_imaginary);
-            data->color = color(data, iter);
-            put_pixel(data, x, y, data->color);
-            x++;
-        }
-        y++;
-    }
+	y = 0;
+	while (y < HEIGHT)
+	{
+		x = 0;
+		while (x < WIDTH)
+		{
+			x_real = -2.0 + (x * 4.0 / WIDTH) / data->zoom + data->offset_x;
+			y_imaginary = 2 - (y * 4.0 / HEIGHT) / data->zoom + data->offset_y;
+			helper_rotate(&x_real, &y_imaginary, data);
+			iter = julia_form(data, x_real, y_imaginary);
+			data->color = color(data, iter);
+			put_pixel(data, x, y, data->color);
+			x++;
+		}
+		y++;
+	}
 }
